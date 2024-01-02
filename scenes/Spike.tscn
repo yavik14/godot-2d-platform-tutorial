@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://by7s5trd5ult1"]
+
+[ext_resource type="Script" path="res://scripts/spike.cs" id="1_7tei7"]
+[ext_resource type="Texture2D" uid="uid://6bn0wph7cqr4" path="res://RockyRoads/Enemies/spikes.png" id="2_aeh12"]
+
+[node name="Spike" type="Area2D"]
+script = ExtResource("1_7tei7")
+
+[node name="CollisionPoligon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(8, 4, 8, 8, -8, 8, -8, 4, -3, -6, 0, 2, 4, -6)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_aeh12")
+hframes = 4
