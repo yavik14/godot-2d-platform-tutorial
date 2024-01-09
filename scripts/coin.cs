@@ -16,12 +16,15 @@ public partial class coin : Area2D
 	{
 	}
 	
-	private void OnBodyEntered(Node2D body)
+	private async void OnBodyEntered(Node2D body)
 	{
 		if(body.Name == "Player")
 		{
+			GetNode<AudioStreamPlayer>("AudioStreamPlayer").Playing = true;
 			EmitSignal(SignalName.CoinCollected);
+			await ToSignal(GetTree().CreateTimer(0.1), "timeout");
 			QueueFree();
-		}
+		} 
 	}
+	
 }

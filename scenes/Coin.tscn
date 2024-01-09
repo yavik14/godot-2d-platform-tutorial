@@ -1,10 +1,26 @@
-[gd_scene load_steps=7 format=3 uid="uid://fynb63i8dicn"]
+[gd_scene load_steps=8 format=3 uid="uid://fynb63i8dicn"]
 
 [ext_resource type="Script" path="res://scripts/coin.cs" id="1_0wcdd"]
 [ext_resource type="Texture2D" uid="uid://cqxpb5xvq7ocy" path="res://RockyRoads/Objects/coin_gold.png" id="1_gi1fo"]
+[ext_resource type="AudioStream" uid="uid://2rwqfs31kqxe" path="res://Sonidos/toggle_002.ogg" id="3_vakje"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4j7nv"]
 radius = 9.05539
+
+[sub_resource type="Animation" id="Animation_4dloq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_xuo13"]
 resource_name = "coin"
@@ -21,21 +37,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 3, 4, 5, 6]
-}
-
-[sub_resource type="Animation" id="Animation_4dloq"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qkdnf"]
@@ -59,5 +60,8 @@ libraries = {
 "": SubResource("AnimationLibrary_qkdnf")
 }
 autoplay = "coin"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vakje")
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]

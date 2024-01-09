@@ -4,9 +4,18 @@ using System;
 public partial class hud : Node
 {
 	private int coins = 0;
+
+	private Sprite2D Heart1;
+	private Sprite2D Heart2;
+	private Sprite2D Heart3;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Heart1 = GetNode<Sprite2D>("Heart1");
+
+		Heart2 = GetNode<Sprite2D>("Heart2");
+		Heart3 = GetNode<Sprite2D>("Heart3");
+
 		UpdateScore();
 	}
 
@@ -38,7 +47,23 @@ public partial class hud : Node
 			GetTree().ReloadCurrentScene();
 		}
 	}
+	
+	private void OnPlayerLife(long Lives)
+	{
+		if(Lives == 0)
+		{
+			Heart1.Visible = false;
+		}
+
+		if(Lives == 1)
+		{
+			Heart2.Visible = false;
+		}
+
+		if(Lives == 2)
+		{
+			Heart3.Visible = false;
+		}
+	}
 }
-
-
 

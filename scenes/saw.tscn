@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://xvq8ogsckvn7"]
+
+[ext_resource type="Script" path="res://scenes/saw.cs" id="1_uwqmb"]
+[ext_resource type="Texture2D" uid="uid://csdaft1wg8w7m" path="res://RockyRoads/Enemies/saw.png" id="1_whmqu"]
+
+[sub_resource type="Animation" id="Animation_xbgag"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_1nphf"]
+resource_name = "saw"
+length = 0.5
+loop_mode = 1
+step = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 6.28319, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f8d48"]
+_data = {
+"RESET": SubResource("Animation_xbgag"),
+"saw": SubResource("Animation_1nphf")
+}
+
+[node name="Saw" type="Node2D"]
+scale = Vector2(0.6, 0.6)
+script = ExtResource("1_uwqmb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_whmqu")
+hframes = 2
+vframes = 2
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sprite2D/Area2D"]
+polygon = PackedVector2Array(0, -17, 3, -8, 10, -11, 8, -2, 15, 0, 8, 4, 10, 10, 3, 8, 0, 15, -3, 7, -10, 10, -8, 3, -15, 0, -7, -4, -11, -10, -3, -8)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_f8d48")
+}
+
+[connection signal="body_entered" from="Sprite2D/Area2D" to="." method="OnSawEntered"]

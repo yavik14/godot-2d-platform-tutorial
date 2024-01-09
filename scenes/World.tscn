@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bnhkigl40nb2j"]
+[gd_scene load_steps=18 format=3 uid="uid://bnhkigl40nb2j"]
 
 [ext_resource type="Texture2D" uid="uid://btto3drxd7rtb" path="res://RockyRoads/Backgrounds/trees.png" id="1_3i881"]
 [ext_resource type="Texture2D" uid="uid://ce6cwwxpfjxat" path="res://RockyRoads/Tilesets/tileset_forest.png" id="1_ne2eu"]
@@ -7,7 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://fynb63i8dicn" path="res://scenes/Coin.tscn" id="5_71ca6"]
 [ext_resource type="Texture2D" uid="uid://cqxpb5xvq7ocy" path="res://RockyRoads/Objects/coin_gold.png" id="6_mmovx"]
 [ext_resource type="Script" path="res://scripts/hud.cs" id="6_qmqdh"]
+[ext_resource type="Texture2D" uid="uid://lv1mevelfia2" path="res://RockyRoads/Objects/heart.png" id="8_0alsj"]
+[ext_resource type="PackedScene" uid="uid://dlhjukcbgltq" path="res://scenes/PauseMenu.tscn" id="8_c76x7"]
 [ext_resource type="Script" path="res://scripts/deathzone.cs" id="8_q3w13"]
+[ext_resource type="PackedScene" uid="uid://xvq8ogsckvn7" path="res://scenes/saw.tscn" id="9_lhcfe"]
+[ext_resource type="PackedScene" uid="uid://cd3ibgmqcoddv" path="res://scenes/Enemy.tscn" id="10_xynd1"]
+[ext_resource type="AudioStream" uid="uid://byvi66xj6f0ds" path="res://Musica/POL-king-of-coins-short.wav" id="13_pe5lc"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qo7eq"]
 
@@ -169,51 +174,92 @@ position = Vector2(24, 472)
 zoom = Vector2(3, 3)
 
 [node name="Coin" parent="." instance=ExtResource("5_71ca6")]
-position = Vector2(90, 473)
+position = Vector2(167, 463)
 
 [node name="Coin2" parent="." instance=ExtResource("5_71ca6")]
-position = Vector2(175, 441)
+position = Vector2(516, 451)
 
 [node name="Coin3" parent="." instance=ExtResource("5_71ca6")]
 position = Vector2(21, 454)
 
 [node name="HUD" type="CanvasLayer" parent="."]
+offset = Vector2(200, 100)
+transform = Transform2D(1, 0, 0, 1, 200, 100)
 follow_viewport_enabled = true
 script = ExtResource("6_qmqdh")
 
 [node name="Panel" type="Panel" parent="HUD"]
-offset_left = -168.0
-offset_top = 363.0
-offset_right = -105.0
-offset_bottom = 387.0
+offset_left = -357.0
+offset_top = 272.0
+offset_right = -294.0
+offset_bottom = 296.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="HUD"]
-position = Vector2(-157, 375)
+position = Vector2(-348, 287)
 texture = ExtResource("6_mmovx")
 hframes = 8
 
+[node name="Heart1" type="Sprite2D" parent="HUD"]
+position = Vector2(-284, 285)
+texture = ExtResource("8_0alsj")
+hframes = 3
+
+[node name="Heart2" type="Sprite2D" parent="HUD"]
+position = Vector2(-268, 285)
+texture = ExtResource("8_0alsj")
+hframes = 3
+
+[node name="Heart3" type="Sprite2D" parent="HUD"]
+position = Vector2(-252, 285)
+texture = ExtResource("8_0alsj")
+hframes = 3
+
 [node name="Label" type="Label" parent="HUD"]
-offset_left = -146.0
-offset_top = 361.0
-offset_right = -106.0
-offset_bottom = 384.0
+offset_left = -337.0
+offset_top = 273.0
+offset_right = -297.0
+offset_bottom = 296.0
 text = ":"
 
 [node name="CoinsCollected" type="Label" parent="HUD"]
-offset_left = -139.0
-offset_top = 362.0
-offset_right = -99.0
-offset_bottom = 385.0
+offset_left = -330.0
+offset_top = 274.0
+offset_right = -290.0
+offset_bottom = 297.0
 text = "000"
+
+[node name="PauseMenu" parent="HUD" instance=ExtResource("8_c76x7")]
+process_mode = 3
+visible = false
+offset_left = -704.0
+offset_top = 101.0
+offset_right = -578.0
+offset_bottom = 164.0
 
 [node name="DeathZone" type="Area2D" parent="."]
 script = ExtResource("8_q3w13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
-position = Vector2(300, 561.5)
+position = Vector2(302, 563)
 shape = SubResource("RectangleShape2D_o5ibi")
 
+[node name="Saw" parent="." instance=ExtResource("9_lhcfe")]
+position = Vector2(240, 477)
+
+[node name="Enemy" parent="." instance=ExtResource("10_xynd1")]
+position = Vector2(196, 472)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 1
+stream = ExtResource("13_pe5lc")
+volume_db = -20.0
+autoplay = true
+
+[connection signal="Life" from="Player" to="HUD" method="OnPlayerLife"]
 [connection signal="CoinCollected" from="Coin" to="HUD" method="OnCoinCollected"]
 [connection signal="CoinCollected" from="Coin2" to="HUD" method="OnCoinCollected"]
 [connection signal="CoinCollected" from="Coin3" to="HUD" method="OnCoinCollected"]
 [connection signal="body_entered" from="DeathZone" to="DeathZone" method="OnBodyEntered"]
+[connection signal="SawCollision" from="Saw" to="Player" method="OnSawCollision"]
+[connection signal="Collision" from="Enemy" to="Player" method="OnEnemyCollision"]
